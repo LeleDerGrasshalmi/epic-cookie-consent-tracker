@@ -22,6 +22,7 @@
 | youtube.com | CONSENT | YouTube is a Google owned platform for hosting and sharing videos. YouTube collects user data through videos embedded in websites, which is aggregated with profile data from other Google services in order to display targeted advertising to web visitors across a broad range of their own and other websites. |
 | youtube.com | VISITOR_INFO1_LIVE | This cookie is used as a unique identifier to track viewing of videos |
 | youtube.com | YSC | YouTube is a Google owned platform for hosting and sharing videos. YouTube collects user data through videos embedded in websites, which is aggregated with profile data from other Google services in order to display targeted advertising to web visitors across a broad range of their own and other websites. |
+
 ## Performance Cookies (1)
 
 > These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance.
@@ -29,6 +30,7 @@
 | Host | Cookie | Description |
 | ---- | ------ | ----------- |
 | epicgames.com | _epicSID | This cookie collects users meta data during page navigations to help improve user experiences internally. |
+
 ## Strictly Necessary Cookies (74)
 
 > These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information.
@@ -109,3 +111,4 @@
 | www.recaptcha.net | _GRECAPTCHA | Used to prevent bots by issuing captcha challenges |
 | www.unrealengine.com | AWSELBCORS | This cookie is managed by AWS and is used for load balancing. |
 | youtube-nocookie.com | CONSENT | Privacy enhanced mode of YT uses local storage for playback |
+
