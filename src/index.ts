@@ -79,6 +79,8 @@ const main = async () => {
 
         md += `| ${cookie.Host} | ${cookie.Name} | ${cookie.description.replace(/\n/g, '<br/>')} |\n`;
       }
+
+      md += `\n`;
     }
 
     const filePath = `${outputFolder}/ruleset_${domainRuleSet.Name.toLowerCase().trim().replace(/ /g, '_')}.md`;
