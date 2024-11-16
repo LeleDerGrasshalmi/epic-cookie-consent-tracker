@@ -6,6 +6,7 @@ import env from './utils/env.js';
 import getCookieConsentDomainData from './utils/get-cookie-consent-domain-data.js';
 import getCookieConsentRuleSetData from './utils/get-cookie-consent-rule-set-data.js';
 import { Cookie } from './types/cookie-consent-rule-set.js';
+import { EPIC_TRACKING_COOKIE_DOMAIN_IDS } from './resources/constants.js';
 
 const outputFolder = 'output';
 
@@ -14,103 +15,108 @@ const main = async () => {
     await fsp.mkdir(outputFolder, { recursive: true });
   }
 
-  const changes: string[] = [];
-  const domain = await getCookieConsentDomainData();
+  const domains = Object.entries(EPIC_TRACKING_COOKIE_DOMAIN_IDS);
 
-  if (!domain.success) {
-    return;
-  }
+  for (let i = 0; i < domains.length; i += 1) {
+    const [domainType, domainId] = domains[i];
+    const domain = await getCookieConsentDomainData(domainId);
+    const changes: string[] = [];
 
-  const ruleSets = domain.data.RuleSet.sort((a, b) => a.Name.localeCompare(b.Name));
-
-  for (let i = 0; i < ruleSets.length; i += 1) {
-    const domainRuleSet = ruleSets[i];
-    const ruleSetGroupsRes = await getCookieConsentRuleSetData(domainRuleSet.Id);
-
-    if (!ruleSetGroupsRes.success) {
+    if (!domain.success) {
       continue;
     }
 
-    const ruleSetGroups = ruleSetGroupsRes.data
-      .sort((a, b) => a.GroupName.localeCompare(b.GroupName));
+    const ruleSets = domain.data.RuleSet.sort((a, b) => a.Name.localeCompare(b.Name));
 
-    let md = `# ${domainRuleSet.Name} (${domainRuleSet.TemplateName})\n`;
-    md += '\n';
+    for (let j = 0; j < ruleSets.length; j += 1) {
+      const domainRuleSet = ruleSets[j];
+      const ruleSetGroupsRes = await getCookieConsentRuleSetData(domainId, domainRuleSet.Id);
 
-    for (let j = 0; j < ruleSetGroups.length; j += 1) {
-      const ruleSetGroup = ruleSetGroups[j];
+      if (!ruleSetGroupsRes.success) {
+        continue;
+      }
 
-      const uniqueCookies: Cookie[] = [];
+      const ruleSetGroups = ruleSetGroupsRes.data
+        .sort((a, b) => a.GroupName.localeCompare(b.GroupName));
 
-      ruleSetGroup.FirstPartyCookies.forEach((cookie) => {
-        if (!uniqueCookies.find((x) => x.id === cookie.id)) {
-          uniqueCookies.push(cookie);
-        }
-      });
+      let md = `# ${domainRuleSet.Name} (${domainRuleSet.TemplateName})\n`;
+      md += '\n';
 
-      ruleSetGroup.Hosts.forEach((host) => {
-        host.Cookies.forEach((cookie) => {
+      for (let k = 0; k < ruleSetGroups.length; k += 1) {
+        const ruleSetGroup = ruleSetGroups[k];
+
+        const uniqueCookies: Cookie[] = [];
+
+        ruleSetGroup.FirstPartyCookies.forEach((cookie) => {
           if (!uniqueCookies.find((x) => x.id === cookie.id)) {
             uniqueCookies.push(cookie);
           }
         });
-      });
 
-      uniqueCookies.sort((a, b) => {
-        if (a.Host !== b.Host) {
-          return a.Host.localeCompare(b.Host);
+        ruleSetGroup.Hosts.forEach((host) => {
+          host.Cookies.forEach((cookie) => {
+            if (!uniqueCookies.find((x) => x.id === cookie.id)) {
+              uniqueCookies.push(cookie);
+            }
+          });
+        });
+
+        uniqueCookies.sort((a, b) => {
+          if (a.Host !== b.Host) {
+            return a.Host.localeCompare(b.Host);
+          }
+
+          return a.Name.localeCompare(b.Name);
+        });
+
+
+        if (!uniqueCookies.length) {
+          continue;
         }
 
-        return a.Name.localeCompare(b.Name);
-      });
+        md += `## ${ruleSetGroup.GroupName} (${uniqueCookies.length})\n\n`;
+        md += `> ${ruleSetGroup.GroupDescription}\n\n`;
+        md += `| Host | Cookie | Description |\n`;
+        md += `| ---- | ------ | ----------- |\n`;
 
+        for (let k = 0; k < uniqueCookies.length; k += 1) {
+          const cookie = uniqueCookies[k];
 
-      if (!uniqueCookies.length) {
-        continue;
+          md += `| ${cookie.Host} | ${cookie.Name} | ${cookie.description.replace(/\n/g, '<br/>')} |\n`;
+        }
+
+        md += `\n`;
       }
 
-      md += `## ${ruleSetGroup.GroupName} (${uniqueCookies.length})\n\n`;
-      md += `> ${ruleSetGroup.GroupDescription}\n\n`;
-      md += `| Host | Cookie | Description |\n`;
-      md += `| ---- | ------ | ----------- |\n`;
+      const filePath = `${outputFolder}/${domainType.toLowerCase()}_ruleset_${domainRuleSet.Name.toLowerCase().trim().replace(/ /g, '_')}.md`;
 
-      for (let k = 0; k < uniqueCookies.length; k += 1) {
-        const cookie = uniqueCookies[k];
+      await fsp.writeFile(filePath, md);
 
-        md += `| ${cookie.Host} | ${cookie.Name} | ${cookie.description.replace(/\n/g, '<br/>')} |\n`;
+      const gitStatus = execSync(`git status ${filePath}`)?.toString('utf-8') || '';
+
+      if (gitStatus.includes(filePath)) {
+        changes.push(domainRuleSet.Name);
       }
-
-      md += `\n`;
     }
 
-    const filePath = `${outputFolder}/ruleset_${domainRuleSet.Name.toLowerCase().trim().replace(/ /g, '_')}.md`;
-
-    await fsp.writeFile(filePath, md);
-
-    const gitStatus = execSync(`git status ${filePath}`)?.toString('utf-8') || '';
-
-    if (gitStatus.includes(filePath)) {
-      changes.push(domainRuleSet.Name);
+    if (!changes.length) {
+      continue;
     }
+
+    const commitMessage = `Modified ${domainType}: ${changes.join(', ')}`;
+
+    console.log(commitMessage);
+
+    if (env.GIT_DO_NOT_COMMIT?.toLowerCase() === 'true') {
+      continue;
+    }
+
+    execSync('git add output');
+    execSync('git config user.email "41898282+github-actions[bot]@users.noreply.github.com"');
+    execSync('git config user.name "github-actions[bot]"');
+    execSync('git config commit.gpgsign false');
+    execSync(`git commit -m "${commitMessage}"`);
   }
-
-  if (!changes.length) {
-    return;
-  }
-
-  const commitMessage = `Modified ${changes.join(', ')}`;
-
-  console.log(commitMessage);
-
-  if (env.GIT_DO_NOT_COMMIT?.toLowerCase() === 'true') {
-    return;
-  }
-
-  execSync('git add output');
-  execSync('git config user.email "41898282+github-actions[bot]@users.noreply.github.com"');
-  execSync('git config user.name "github-actions[bot]"');
-  execSync('git config commit.gpgsign false');
-  execSync(`git commit -m "${commitMessage}"`);
 
   if (env.GIT_DO_NOT_PUSH?.toLowerCase() === 'true') {
     return;

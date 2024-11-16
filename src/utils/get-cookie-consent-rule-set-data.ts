@@ -1,9 +1,8 @@
-import { COOKIE_LAW_BASE_URL } from "../resources/constants.js";
 import { CookieConsentRuleSetData } from "../types/cookie-consent-rule-set";
 
-export default async (ruleSetId: string) => {
+export default async (domainId: string, ruleSetId: string) => {
   const res = await fetch(
-    `${COOKIE_LAW_BASE_URL}/${ruleSetId}/en.json`,
+    `https://cdn.cookielaw.org/consent/${domainId}/${ruleSetId}/en.json`,
     {
       method: 'GET',
     },
@@ -12,7 +11,7 @@ export default async (ruleSetId: string) => {
   const contentType = res.headers.get('content-type');
 
   if (!res.ok || !contentType?.startsWith('application/json')) {
-    console.log(`failed fetching rule set '${ruleSetId}' data`, res.status, res.statusText, await res.text());
+    console.log(`failed fetching rule set '${ruleSetId}' data for domain '${domainId}'`, res.status, res.statusText, await res.text());
 
     return {
       success: false as const,
