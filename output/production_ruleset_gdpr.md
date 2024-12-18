@@ -1,6 +1,6 @@
 # GDPR (Epic Standard template)
 
-## Functional Cookies (13)
+## Functional Cookies (17)
 
 > These cookies enable the website to provide enhanced functionality and personalization. They may be set by us or by third party providers whose services we have added to our pages. If you do not allow these cookies then some or all of these services may not function properly.
 
@@ -9,26 +9,31 @@
 | api2.hcaptcha.com | __cflb | Testing |
 | dev.epicgames.com | EPIC_DOCSPORTAL_SESSION |  |
 | dev.epicgames.com | EPIC_SESSION_DEVPORTAL |  |
+| eoshelp.epicgames.com | PicassoLanguage4b85598f-9941-4e6d-b961-7771f3718581Published | Used to store a user’s language selection for the support sites. The site doesn’t load without this cookie if the user changes the site’s language. |
 | epicgames.com | EGS_VAULT_UNLOCK | This cookie is used to tell whether the user has viewed the vault unlock video for free games |
 | epicgames.com | EGS_WISHLIST_LAYOUT | User preference for wishlist layout. Either CONDENSED or EXPANDED. |
 | epicgames.com | EPIC_LOCALE_COOKIE | Cookie to determine user preference for locale. |
 | epicgames.com | EPIC_SSP_ARTICLE_RATE | Tracking which player support articles have been given a rating |
 | epicgames.com | productName | Remember user's product name under productName url query |
 | marketplacehelp.epicgames.com | PicassoLanguage19d57e9e-47ec-495e-bbb5-10a4ca1a6c5cPublished |  |
+| onlineservices.epicgames.com | EPIC_CLIENT_SESSION |  |
 | store.epicgames.com | cf_clearance | Used to verify user is not a bot; user/system has solved a challenge successfully<br/> |
 | store.epicgames.com | EPIC_LOCALE |  |
 | twinmotionhelp.epicgames.com | PicassoLanguage381d2a61-2885-43b1-bbe6-8a8fe55e169bPublished | Used to store a user’s language selection for the support sites. The site doesn’t load without this cookie if the user changes the site’s language. |
 | www.epicgames.com | EPIC_HELP_LOCALE_COOKIE | Cookie to determine user preference for locale. |
+| youtube.com | VISITOR_INFO1_LIVE | This cookie is used as a unique identifier to track viewing of videos |
+| youtube.com | YSC | YouTube is a Google owned platform for hosting and sharing videos. YouTube collects user data through videos embedded in websites, which is aggregated with profile data from other Google services in order to display targeted advertising to web visitors across a broad range of their own and other websites. |
 
-## Performance Cookies (1)
+## Performance Cookies (2)
 
 > These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance.
 
 | Host | Cookie | Description |
 | ---- | ------ | ----------- |
 | epicgames.com | _epicSID | This cookie collects users meta data during page navigations to help improve user experiences internally. |
+| roborecall-site.pages.dev | __cf_bm | This is a CloudFoundry cookie |
 
-## Strictly Necessary Cookies (59)
+## Strictly Necessary Cookies (58)
 
 > These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information.
 
@@ -37,10 +42,9 @@
 | .epicgames.com | EPIC_SESSION_SHADOWCOMPLEX | This cookie is used to store session token for /shadowcomplex |
 | .epicgames.com | store-token | This cookie is used to store session token from store. |
 | artstation.com | __cf_bm | This is a CloudFoundry cookie |
+| dev.epicgames.com | __cf_bm | The __cf_bm cookie is a cookie necessary to support Cloudflare Bot Management, currently in private beta. As part of our bot management service, this cookie helps manage incoming traffic that matches criteria associated with bots.<br/>This is a CloudFoundry cookie |
 | dev.epicgames.com | PRIVATE-CSRF-TOKEN |  |
-| ecosec.on.epicgames.com | __cf_bm | The __cf_bm cookie is a cookie necessary to support Cloudflare Bot Management, currently in private beta. As part of our bot management service, this cookie helps manage incoming traffic that matches criteria associated with bots.<br/>This is a CloudFoundry cookie |
 | eoshelp.epicgames.com | CookieConsentPolicy | Used to apply end-user cookie consent preferences set by our client-side utility. |
-| eoshelp.epicgames.com | PicassoLanguage4b85598f-9941-4e6d-b961-7771f3718581Published | Used to store a user’s language selection for the support sites. The site doesn’t load without this cookie if the user changes the site’s language. |
 | epicgames.com | _AFFILIATE_DISCLAIMER | This cookie is added for a pop up that lets Affiliate know that the Earnings data is confidential |
 | epicgames.com | _epicAffiliate | This cookie is used for Support-A-Creator affiliation to tie an affiliate to a user web session. |
 | epicgames.com | _tald | Set for security and DDoS prevention services |
@@ -93,4 +97,12 @@
 | www.epicgames.com | csrf-token |  |
 | www.epicgames.com | EPIC_CLIENT_SESSION | Authentication cookie |
 | www.recaptcha.net | _GRECAPTCHA | This domain is used by Google reCAPTCHA, which provides spam protection services to websites by detecting if a user is a human or a bot. |
+
+## Targeting Cookies (1)
+
+> These cookies may be set through our site by our advertising partners. They may be used by those companies to build a profile of your interests and show you relevant adverts on other sites. They do not store directly personal information, but are based on uniquely identifying your browser and internet device. If you do not allow these cookies, you will experience less targeted advertising.
+
+| Host | Cookie | Description |
+| ---- | ------ | ----------- |
+| youtube.com | VISITOR_PRIVACY_METADATA | YouTube is a Google owned platform for hosting and sharing videos. YouTube collects user data through videos embedded in websites, which is aggregated with profile data from other Google services in order to display targeted advertising to web visitors across a broad range of their own and other websites. |
 
