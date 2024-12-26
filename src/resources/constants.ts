@@ -1,4 +1,5 @@
 export const EPIC_TRACKING_COOKIE_DOMAIN_IDS = {
-  PRODUCTION: '619b80f6-779b-4cf1-8f62-7b4e25b9d4c9',
-  TEST: '619b80f6-779b-4cf1-8f62-7b4e25b9d4c9-test',
+  EPIC_PRODUCTION: '619b80f6-779b-4cf1-8f62-7b4e25b9d4c9',
+  EPIC_TEST: '619b80f6-779b-4cf1-8f62-7b4e25b9d4c9-test',
+  FAB_PRODUCTION: '40f3b4de-0bcb-48fd-9456-facdeb2eece1',
 };
